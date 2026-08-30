@@ -1,52 +1,50 @@
 `timescale 1ns/1ps
 
-module tb_comparator1bit;
+module tb_encoder4to2;
 
-    reg A;
-    reg B;
+    reg I0;
+    reg I1;
+    reg I2;
+    reg I3;
 
-    wire A_gt_B;
-    wire A_eq_B;
-    wire A_lt_B;
+    wire Y1;
+    wire Y0;
 
     
-    comparator1bit DUT(
-        .A(A),
-        .B(B),
-        .A_gt_B(A_gt_B),
-        .A_eq_B(A_eq_B),
-        .A_lt_B(A_lt_B)
+    encoder4to2 DUT(
+        .I0(I0),
+        .I1(I1),
+        .I2(I2),
+        .I3(I3),
+        .Y1(Y1),
+        .Y0(Y0)
     );
 
     initial begin
 
         
-        $dumpfile("comparator1bit.vcd");
-        $dumpvars(0, tb_comparator1bit);
+        $dumpfile("encoder4to2.vcd");
+        $dumpvars(0, tb_encoder4to2);
 
         
-        $display("Time\tA\tB\tA_gt_B\tA_eq_B\tA_lt_B");
-        $monitor("%0t\t%b\t%b\t%b\t%b\t%b",
-                 $time, A, B, A_gt_B, A_eq_B, A_lt_B);
+        $display("Time\tI0 I1 I2 I3\tY1 Y0");
+        $monitor("%0t\t%b  %b  %b  %b\t %b  %b",
+                 $time, I0, I1, I2, I3, Y1, Y0);
 
         
-        A = 1'b0;
-        B = 1'b0;
-        #10;
-
-    
-        A = 1'b0;
-        B = 1'b1;
+        I0 = 1'b1; I1 = 1'b0; I2 = 1'b0; I3 = 1'b0;
         #10;
 
         
-        A = 1'b1;
-        B = 1'b0;
+        I0 = 1'b0; I1 = 1'b1; I2 = 1'b0; I3 = 1'b0;
         #10;
 
         
-        A = 1'b1;
-        B = 1'b1;
+        I0 = 1'b0; I1 = 1'b0; I2 = 1'b1; I3 = 1'b0;
+        #10;
+
+        
+        I0 = 1'b0; I1 = 1'b0; I2 = 1'b0; I3 = 1'b1;
         #10;
 
         $finish;

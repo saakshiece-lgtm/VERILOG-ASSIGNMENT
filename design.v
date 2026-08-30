@@ -1,20 +1,16 @@
 
 
-module comparator1bit(
-    input A,
-    input B,
-    output A_gt_B,
-    output A_eq_B,
-    output A_lt_B
+module encoder4to2(
+    input I0,
+    input I1,
+    input I2,
+    input I3,
+    output Y1,
+    output Y0
 );
 
-    
-    assign A_gt_B = A & ~B;
 
-
-    assign A_eq_B = ~(A ^ B);
-
-
-    assign A_lt_B = ~A & B;
+    assign Y1 = I2 | I3;
+    assign Y0 = I1 | I3;
 
 endmodule
