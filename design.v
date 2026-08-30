@@ -1,14 +1,39 @@
 
-
-module gray_to_binary(
-    input  [3:0] gray,
-    output [3:0] binary
+module mux4to1(
+    input I0,
+    input I1,
+    input I2,
+    input I3,
+    input S1,
+    input S0,
+    output Y
 );
 
     
-    assign binary[3] = gray[3];
-    assign binary[2] = binary[3] ^ gray[2];
-    assign binary[1] = binary[2] ^ gray[1];
-    assign binary[0] = binary[1] ^ gray[0];
+    assign Y = (S1 == 1'b0 && S0 == 1'b0) ? I0 :
+               (S1 == 1'b0 && S0 == 1'b1) ? I1 :
+               (S1 == 1'b1 && S0 == 1'b0) ? I2 :
+                                              I3;
+
+endmodule
+
+
+module xor_gate_mux(
+    input A,
+    input B,
+    output Y
+);
+
+    
+
+    mux4to1 M1(
+        .I0(1'b0),
+        .I1(1'b1),
+        .I2(1'b1),
+        .I3(1'b0),
+        .S1(A),
+        .S0(B),
+        .Y(Y)
+    );
 
 endmodule

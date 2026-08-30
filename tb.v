@@ -1,44 +1,44 @@
 `timescale 1ns/1ps
 
-module tb_gray_to_binary;
+module tb_xor_gate_mux;
 
-    reg  [3:0] gray;
-    wire [3:0] binary;
+    reg A;
+    reg B;
+    wire Y;
 
-    
-    gray_to_binary DUT(
-        .gray(gray),
-        .binary(binary)
+    xor_gate_mux DUT(
+        .A(A),
+        .B(B),
+        .Y(Y)
     );
 
     initial begin
 
         
-        $dumpfile("gray_to_binary.vcd");
-        $dumpvars(0, tb_gray_to_binary);
+        $dumpfile("xor_gate_mux.vcd");
+        $dumpvars(0, tb_xor_gate_mux);
 
         
-        $display("Time\tGray\tBinary");
-        $monitor("%0t\t%b\t%b", $time, gray, binary);
+        $display("Time\tA\tB\tY");
+        $monitor("%0t\t%b\t%b\t%b", $time, A, B, Y);
 
         
 
-        gray = 4'b0000; #10;
-        gray = 4'b0001; #10;
-        gray = 4'b0010; #10;
-        gray = 4'b0011; #10;
-        gray = 4'b0100; #10;
-        gray = 4'b0101; #10;
-        gray = 4'b0110; #10;
-        gray = 4'b0111; #10;
-        gray = 4'b1000; #10;
-        gray = 4'b1001; #10;
-        gray = 4'b1010; #10;
-        gray = 4'b1011; #10;
-        gray = 4'b1100; #10;
-        gray = 4'b1101; #10;
-        gray = 4'b1110; #10;
-        gray = 4'b1111; #10;
+        A = 1'b0;
+        B = 1'b0;
+        #10;
+
+        A = 1'b0;
+        B = 1'b1;
+        #10;
+
+        A = 1'b1;
+        B = 1'b0;
+        #10;
+
+        A = 1'b1;
+        B = 1'b1;
+        #10;
 
         $finish;
 
