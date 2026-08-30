@@ -1,57 +1,25 @@
+
+module half_adder (
+    input A, B,
+    output Sum, Carry
+);
+    assign Sum   = A ^ B;   
+    assign Carry = A & B;   
+endmodule
+
 module full_adder (
-    input A,
-    input B,
-    input Cin,
-    output Sum,
-    output Cout
+    input A, B, Cin,
+    output Sum, Cout
 );
+    wire sum1, carry1, carry2;
 
-assign Sum = A ^ B ^ Cin;
-assign Cout = (A & B) | (B & Cin) | (A & Cin);
+    
+    half_adder HA1 (.A(A), .B(B), .Sum(sum1), .Carry(carry1));
 
+    
+    half_adder HA2 (.A(sum1), .B(Cin), .Sum(Sum), .Carry(carry2));
+
+    
+    assign Cout = carry1 | carry2;
 endmodule
 
-
-module ripple_carry_adder_4bit (
-    input [3:0] A,
-    input [3:0] B,
-    input Cin,
-    output [3:0] Sum,
-    output Cout
-);
-
-wire C1, C2, C3;
-
-full_adder FA0 (
-    .A(A[0]),
-    .B(B[0]),
-    .Cin(Cin),
-    .Sum(Sum[0]),
-    .Cout(C1)
-);
-
-full_adder FA1 (
-    .A(A[1]),
-    .B(B[1]),
-    .Cin(C1),
-    .Sum(Sum[1]),
-    .Cout(C2)
-);
-
-full_adder FA2 (
-    .A(A[2]),
-    .B(B[2]),
-    .Cin(C2),
-    .Sum(Sum[2]),
-    .Cout(C3)
-);
-
-full_adder FA3 (
-    .A(A[3]),
-    .B(B[3]),
-    .Cin(C3),
-    .Sum(Sum[3]),
-    .Cout(Cout)
-);
-
-endmodule

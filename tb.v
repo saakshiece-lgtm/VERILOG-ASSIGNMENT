@@ -1,54 +1,30 @@
 `timescale 1ns/1ps
 
-module tb_ripple_carry_adder_4bit;
+module tb_full_adder;
+    reg A, B, Cin;
+    wire Sum, Cout;
 
-reg [3:0] A;
-reg [3:0] B;
-reg Cin;
+    
+    full_adder FA (.A(A), .B(B), .Cin(Cin), .Sum(Sum), .Cout(Cout));
 
-wire [3:0] Sum;
-wire Cout;
+    initial begin
+        
+        $dumpfile("full_adder.vcd");  
+        $dumpvars(0, tb_full_adder);   
 
-ripple_carry_adder_4bit DUT (
-    .A(A),
-    .B(B),
-    .Cin(Cin),
-    .Sum(Sum),
-    .Cout(Cout)
-);
+        $display("A B Cin | Sum Cout");
+        $display("------------------");
 
-initial begin
 
-    // Create VCD file
-    $dumpfile("ripple_carry_adder.vcd");
-    $dumpvars(0, tb_ripple_carry_adder_4bit);
+        A=0; B=0; Cin=0; #10 $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+        A=0; B=0; Cin=1; #10 $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+        A=0; B=1; Cin=0; #10 $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+        A=0; B=1; Cin=1; #10 $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+        A=1; B=0; Cin=0; #10 $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+        A=1; B=0; Cin=1; #10 $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+        A=1; B=1; Cin=0; #10 $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
+        A=1; B=1; Cin=1; #10 $display("%b %b  %b  |  %b    %b", A,B,Cin,Sum,Cout);
 
-    // Test 1: No carry propagation
-    A = 4'b0011;
-    B = 4'b0100;
-    Cin = 1'b0;
-    #10;
-
-    // Test 2: Carry propagation
-    A = 4'b0111;
-    B = 4'b0001;
-    Cin = 1'b0;
-    #10;
-
-    // Test 3: Carry out
-    A = 4'b1111;
-    B = 4'b0001;
-    Cin = 1'b0;
-    #10;
-
-    // Test 4: Carry input
-    A = 4'b0101;
-    B = 4'b0010;
-    Cin = 1'b1;
-    #10;
-
-    $finish;
-
-end
-
+        $finish;
+    end
 endmodule
