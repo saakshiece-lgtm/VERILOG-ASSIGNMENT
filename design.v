@@ -1,12 +1,24 @@
 
 
-module binary_to_gray2bit(
-    input  [1:0] B,
-    output [1:0] G
+module mux2to1_gates(
+    input I0,
+    input I1,
+    input S,
+    output Y
 );
 
+    wire S_not;
+    wire w0;
+    wire w1;
+
     
-    assign G[1] = B[1];
-    assign G[0] = B[1] ^ B[0];
+    not (S_not, S);
+
+    
+    and (w0, I0, S_not);
+    and (w1, I1, S);
+
+
+    or (Y, w0, w1);
 
 endmodule
