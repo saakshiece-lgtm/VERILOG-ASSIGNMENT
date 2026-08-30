@@ -1,52 +1,74 @@
-module tb_decoder3to8;
+`timescale 1ns/1ps
 
-reg en;
-reg [2:0] in;
-wire [7:0] y;
+module tb_full_subtractor;
 
-decoder3to8 DUT(
-    .en(en),
-    .in(in),
-    .y(y)
+reg A;
+reg B;
+reg Bin;
+
+wire Diff;
+wire Bout;
+
+full_subtractor DUT (
+    .A(A),
+    .B(B),
+    .Bin(Bin),
+    .Diff(Diff),
+    .Bout(Bout)
 );
 
 initial begin
 
     
-    $dumpfile("decoder3to8.vcd");
-    $dumpvars(0, tb_decoder3to8);
+    $dumpfile("full_subtractor.vcd");
+    $dumpvars(0, tb_full_subtractor);
 
     
-    $display("Time\tEnable\tInput\tOutput");
-    $monitor("%0t\t%b\t%b\t%b", $time, en, in, y);
+    A = 1'b0; B = 1'b0; Bin = 1'b0;
+    #10;
+    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
+             A, B, Bin, Diff, Bout);
 
     
-    en = 1'b1;
+    A = 1'b0; B = 1'b0; Bin = 1'b1;
+    #10;
+    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
+             A, B, Bin, Diff, Bout);
+
+    A = 1'b0; B = 1'b1; Bin = 1'b0;
+    #10;
+    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
+             A, B, Bin, Diff, Bout);
 
     
-    in = 3'b000;
+    A = 1'b0; B = 1'b1; Bin = 1'b1;
     #10;
+    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
+             A, B, Bin, Diff, Bout);
 
-    in = 3'b001;
+    
+    A = 1'b1; B = 1'b0; Bin = 1'b0;
     #10;
+    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
+             A, B, Bin, Diff, Bout);
 
-    in = 3'b010;
+    
+    A = 1'b1; B = 1'b0; Bin = 1'b1;
     #10;
+    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
+             A, B, Bin, Diff, Bout);
 
-    in = 3'b011;
+    
+    A = 1'b1; B = 1'b1; Bin = 1'b0;
     #10;
+    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
+             A, B, Bin, Diff, Bout);
 
-    in = 3'b100;
+    
+    A = 1'b1; B = 1'b1; Bin = 1'b1;
     #10;
-
-    in = 3'b101;
-    #10;
-
-    in = 3'b110;
-    #10;
-
-    in = 3'b111;
-    #10;
+    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
+             A, B, Bin, Diff, Bout);
 
     $finish;
 

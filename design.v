@@ -1,59 +1,45 @@
-
-module decoder2to4(
-    input en,
-    input [1:0] in,
-    output reg [3:0] y
+module half_subtractor (
+    input A,
+    input B,
+    output Diff,
+    output Borrow
 );
 
-always @(*) begin
-    if (en == 1'b1) begin
-        case (in)
-            2'b00: y = 4'b0001;
-            2'b01: y = 4'b0010;
-            2'b10: y = 4'b0100;
-            2'b11: y = 4'b1000;
-            default: y = 4'b0000;
-        endcase
-    end
-    else begin
-        y = 4'b0000;
-    end
-end
+assign Diff = A ^ B;
+assign Borrow = (~A) & B;
 
 endmodule
 
 
-
-module decoder3to8(
-    input en,
-    input [2:0] in,
-    output [7:0] y
+module full_subtractor (
+    input A,
+    input B,
+    input Bin,
+    output Diff,
+    output Bout
 );
 
-wire en0;
-wire en1;
-wire [3:0] y0;
-wire [3:0] y1;
+wire D1;
+wire B1;
+wire B2;
 
 
-assign en0 = en & ~in[2];
-assign en1 = en & in[2];
-
-
-decoder2to4 D0(
-    .en(en0),
-    .in(in[1:0]),
-    .y(y0)
+half_subtractor HS1 (
+    .A(A),
+    .B(B),
+    .Diff(D1),
+    .Borrow(B1)
 );
 
 
-decoder2to4 D1(
-    .en(en1),
-    .in(in[1:0]),
-    .y(y1)
+half_subtractor HS2 (
+    .A(D1),
+    .B(Bin),
+    .Diff(Diff),
+    .Borrow(B2)
 );
 
 
-assign y = {y1, y0};
+or OR1 (Bout, B1, B2);
 
 endmodule
