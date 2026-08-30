@@ -1,16 +1,26 @@
 
 
-module encoder4to2(
-    input I0,
-    input I1,
-    input I2,
-    input I3,
+module decoder2to4(
+    input A,
+    input B,
+    input En,
+    output Y0,
     output Y1,
-    output Y0
+    output Y2,
+    output Y3
 );
 
+    wire nA;
+    wire nB;
 
-    assign Y1 = I2 | I3;
-    assign Y0 = I1 | I3;
+    
+    not (nA, A);
+    not (nB, B);
+
+    
+    and (Y0, En, nA, nB);
+    and (Y1, En, nA, B);
+    and (Y2, En, A, nB);
+    and (Y3, En, A, B);
 
 endmodule

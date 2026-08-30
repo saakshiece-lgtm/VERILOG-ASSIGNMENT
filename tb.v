@@ -1,50 +1,56 @@
 `timescale 1ns/1ps
 
-module tb_encoder4to2;
+module tb_decoder2to4;
 
-    reg I0;
-    reg I1;
-    reg I2;
-    reg I3;
+    reg A;
+    reg B;
+    reg En;
 
-    wire Y1;
     wire Y0;
+    wire Y1;
+    wire Y2;
+    wire Y3;
 
     
-    encoder4to2 DUT(
-        .I0(I0),
-        .I1(I1),
-        .I2(I2),
-        .I3(I3),
+    decoder2to4 DUT(
+        .A(A),
+        .B(B),
+        .En(En),
+        .Y0(Y0),
         .Y1(Y1),
-        .Y0(Y0)
+        .Y2(Y2),
+        .Y3(Y3)
     );
 
     initial begin
 
         
-        $dumpfile("encoder4to2.vcd");
-        $dumpvars(0, tb_encoder4to2);
+        $dumpfile("decoder2to4.vcd");
+        $dumpvars(0, tb_decoder2to4);
 
         
-        $display("Time\tI0 I1 I2 I3\tY1 Y0");
-        $monitor("%0t\t%b  %b  %b  %b\t %b  %b",
-                 $time, I0, I1, I2, I3, Y1, Y0);
+        $display("Time\tEn\tA\tB\tY0\tY1\tY2\tY3");
+        $monitor("%0t\t%b\t%b\t%b\t%b\t%b\t%b\t%b",
+                 $time, En, A, B, Y0, Y1, Y2, Y3);
 
         
-        I0 = 1'b1; I1 = 1'b0; I2 = 1'b0; I3 = 1'b0;
+        En = 1'b0; A = 1'b0; B = 1'b0;
         #10;
 
         
-        I0 = 1'b0; I1 = 1'b1; I2 = 1'b0; I3 = 1'b0;
+        En = 1'b1; A = 1'b0; B = 1'b0;
+        #10;
+
+    
+        En = 1'b1; A = 1'b0; B = 1'b1;
         #10;
 
         
-        I0 = 1'b0; I1 = 1'b0; I2 = 1'b1; I3 = 1'b0;
+        En = 1'b1; A = 1'b1; B = 1'b0;
         #10;
 
         
-        I0 = 1'b0; I1 = 1'b0; I2 = 1'b0; I3 = 1'b1;
+        En = 1'b1; A = 1'b1; B = 1'b1;
         #10;
 
         $finish;
