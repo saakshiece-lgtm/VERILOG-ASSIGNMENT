@@ -1,13 +1,14 @@
 
 
-module mux2to1(
-    input I0,
-    input I1,
-    input S,
-    output Y
+module half_adder(
+    input A,
+    input B,
+    output Sum,
+    output Carry
 );
 
     
-    assign Y = S ? I1 : I0;
+    xor (Sum, A, B);
+    and (Carry, A, B);
 
 endmodule

@@ -1,55 +1,46 @@
 `timescale 1ns/1ps
 
-module tb_mux2to1;
+module tb_half_adder;
 
-    reg I0;
-    reg I1;
-    reg S;
+    reg A;
+    reg B;
 
-    wire Y;
+    wire Sum;
+    wire Carry;
 
-    
-    mux2to1 DUT(
-        .I0(I0),
-        .I1(I1),
-        .S(S),
-        .Y(Y)
+    half_adder DUT(
+        .A(A),
+        .B(B),
+        .Sum(Sum),
+        .Carry(Carry)
     );
 
     initial begin
 
         
-        $dumpfile("mux2to1.vcd");
-        $dumpvars(0, tb_mux2to1);
+        $dumpfile("half_adder.vcd");
+        $dumpvars(0, tb_half_adder);
 
         
-        $display("Time\tI0\tI1\tS\tY");
+        $display("Time\tA\tB\tSum\tCarry");
         $monitor("%0t\t%b\t%b\t%b\t%b",
-                 $time, I0, I1, S, Y);
+                 $time, A, B, Sum, Carry);
 
         
-        I0 = 1'b0; I1 = 1'b0; S = 1'b0;
+        A = 1'b0;
+        B = 1'b0;
         #10;
 
-        I0 = 1'b0; I1 = 1'b1; S = 1'b0;
+        A = 1'b0;
+        B = 1'b1;
         #10;
 
-        I0 = 1'b1; I1 = 1'b0; S = 1'b0;
+        A = 1'b1;
+        B = 1'b0;
         #10;
 
-        I0 = 1'b1; I1 = 1'b1; S = 1'b0;
-        #10;
-
-        I0 = 1'b0; I1 = 1'b0; S = 1'b1;
-        #10;
-
-        I0 = 1'b0; I1 = 1'b1; S = 1'b1;
-        #10;
-
-        I0 = 1'b1; I1 = 1'b0; S = 1'b1;
-        #10;
-
-        I0 = 1'b1; I1 = 1'b1; S = 1'b1;
+        A = 1'b1;
+        B = 1'b1;
         #10;
 
         $finish;
