@@ -1,12 +1,13 @@
 `timescale 1ns/1ps
 
-module tb_xor_gate_mux;
+module tb_or_gate_mux;
 
     reg A;
     reg B;
     wire Y;
 
-    xor_gate_mux DUT(
+
+    or_gate_mux DUT(
         .A(A),
         .B(B),
         .Y(Y)
@@ -15,8 +16,8 @@ module tb_xor_gate_mux;
     initial begin
 
         
-        $dumpfile("xor_gate_mux.vcd");
-        $dumpvars(0, tb_xor_gate_mux);
+        $dumpfile("or_gate_mux.vcd");
+        $dumpvars(0, tb_or_gate_mux);
 
         
         $display("Time\tA\tB\tY");
