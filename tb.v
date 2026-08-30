@@ -1,65 +1,51 @@
 `timescale 1ns/1ps
 
-module tb_mux8to1;
+module tb_ripple_carry_adder_4bit;
 
-reg [7:0] D;
-reg [2:0] S;
-wire Y;
+reg [3:0] A;
+reg [3:0] B;
+reg Cin;
 
-mux8to1 DUT (
-    .D(D),
-    .S(S),
-    .Y(Y)
+wire [3:0] Sum;
+wire Cout;
+
+ripple_carry_adder_4bit DUT (
+    .A(A),
+    .B(B),
+    .Cin(Cin),
+    .Sum(Sum),
+    .Cout(Cout)
 );
 
 initial begin
 
-    // VCD generation
-    $dumpfile("mux8to1.vcd");
-    $dumpvars(0, tb_mux8to1);
+    // Create VCD file
+    $dumpfile("ripple_carry_adder.vcd");
+    $dumpvars(0, tb_ripple_carry_adder_4bit);
 
-    // Input data
-    D = 8'b10101010;
-
-    // Select 000 -> D[0]
-    S = 3'b000;
+    // Test 1: No carry propagation
+    A = 4'b0011;
+    B = 4'b0100;
+    Cin = 1'b0;
     #10;
-    $display("S=%b D=%b Y=%b", S, D, Y);
 
-    // Select 001 -> D[1]
-    S = 3'b001;
+    // Test 2: Carry propagation
+    A = 4'b0111;
+    B = 4'b0001;
+    Cin = 1'b0;
     #10;
-    $display("S=%b D=%b Y=%b", S, D, Y);
 
-    // Select 010 -> D[2]
-    S = 3'b010;
+    // Test 3: Carry out
+    A = 4'b1111;
+    B = 4'b0001;
+    Cin = 1'b0;
     #10;
-    $display("S=%b D=%b Y=%b", S, D, Y);
 
-    // Select 011 -> D[3]
-    S = 3'b011;
+    // Test 4: Carry input
+    A = 4'b0101;
+    B = 4'b0010;
+    Cin = 1'b1;
     #10;
-    $display("S=%b D=%b Y=%b", S, D, Y);
-
-    // Select 100 -> D[4]
-    S = 3'b100;
-    #10;
-    $display("S=%b D=%b Y=%b", S, D, Y);
-
-    // Select 101 -> D[5]
-    S = 3'b101;
-    #10;
-    $display("S=%b D=%b Y=%b", S, D, Y);
-
-    // Select 110 -> D[6]
-    S = 3'b110;
-    #10;
-    $display("S=%b D=%b Y=%b", S, D, Y);
-
-    // Select 111 -> D[7]
-    S = 3'b111;
-    #10;
-    $display("S=%b D=%b Y=%b", S, D, Y);
 
     $finish;
 

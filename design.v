@@ -1,16 +1,57 @@
-module mux8to1 (
-    input  [7:0] D,
-    input  [2:0] S,
-    output Y
+module full_adder (
+    input A,
+    input B,
+    input Cin,
+    output Sum,
+    output Cout
 );
 
-assign Y = (S == 3'b000) ? D[0] :
-           (S == 3'b001) ? D[1] :
-           (S == 3'b010) ? D[2] :
-           (S == 3'b011) ? D[3] :
-           (S == 3'b100) ? D[4] :
-           (S == 3'b101) ? D[5] :
-           (S == 3'b110) ? D[6] :
-                           D[7];
+assign Sum = A ^ B ^ Cin;
+assign Cout = (A & B) | (B & Cin) | (A & Cin);
+
+endmodule
+
+
+module ripple_carry_adder_4bit (
+    input [3:0] A,
+    input [3:0] B,
+    input Cin,
+    output [3:0] Sum,
+    output Cout
+);
+
+wire C1, C2, C3;
+
+full_adder FA0 (
+    .A(A[0]),
+    .B(B[0]),
+    .Cin(Cin),
+    .Sum(Sum[0]),
+    .Cout(C1)
+);
+
+full_adder FA1 (
+    .A(A[1]),
+    .B(B[1]),
+    .Cin(C1),
+    .Sum(Sum[1]),
+    .Cout(C2)
+);
+
+full_adder FA2 (
+    .A(A[2]),
+    .B(B[2]),
+    .Cin(C2),
+    .Sum(Sum[2]),
+    .Cout(C3)
+);
+
+full_adder FA3 (
+    .A(A[3]),
+    .B(B[3]),
+    .Cin(C3),
+    .Sum(Sum[3]),
+    .Cout(Cout)
+);
 
 endmodule
