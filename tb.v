@@ -1,60 +1,52 @@
 `timescale 1ns/1ps
 
-module tb_comparator4bit;
+module tb_encoder8to3;
 
-    reg [3:0] A;
-    reg [3:0] B;
+reg [7:0] in;
+wire [2:0] out;
 
-    wire A_greater;
-    wire A_equal;
-    wire A_less;
+
+encoder8to3 DUT(
+    .in(in),
+    .out(out)
+);
+
+initial begin
 
     
-    comparator4bit DUT(
-        .A(A),
-        .B(B),
-        .A_greater(A_greater),
-        .A_equal(A_equal),
-        .A_less(A_less)
-    );
+    $dumpfile("encoder8to3.vcd");
+    $dumpvars(0, tb_encoder8to3);
 
-    initial begin
+    
+    $display("Time\tInput\t\tOutput");
+    $monitor("%0t\t%b\t%b", $time, in, out);
 
-        
-        $dumpfile("comparator4bit.vcd");
-        $dumpvars(0, tb_comparator4bit);
+    in = 8'b00000001;
+    #10;
 
-        
-        $display("Time\tA\tB\tA>B\tA=B\tA<B");
-        $monitor("%0t\t%b\t%b\t%b\t%b\t%b",
-                 $time, A, B, A_greater, A_equal, A_less);
+    in = 8'b00000010;
+    #10;
 
-        
-        A = 4'b0101;
-        B = 4'b0101;
-        #10;
+    in = 8'b00000100;
+    #10;
 
-        
-        A = 4'b1010;
-        B = 4'b0110;
-        #10;
+    in = 8'b00001000;
+    #10;
 
-        
-        A = 4'b0011;
-        B = 4'b1100;
-        #10;
+    in = 8'b00010000;
+    #10;
 
-        
-        A = 4'b1111;
-        B = 4'b0000;
-        #10;
+    in = 8'b00100000;
+    #10;
 
-        A = 4'b0000;
-        B = 4'b1111;
-        #10;
+    in = 8'b01000000;
+    #10;
 
-        $finish;
+    in = 8'b10000000;
+    #10;
 
-    end
+    $finish;
+
+end
 
 endmodule

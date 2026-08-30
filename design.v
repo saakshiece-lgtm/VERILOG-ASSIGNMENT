@@ -1,37 +1,15 @@
 
 
-module comparator4bit(
-    input  [3:0] A,
-    input  [3:0] B,
-    output A_greater,
-    output A_equal,
-    output A_less
+module encoder8to3(
+    input  [7:0] in,
+    output [2:0] out
 );
 
     
-    wire e3, e2, e1, e0;
+    assign out[2] = in[4] | in[5] | in[6] | in[7];
 
-    
-    assign e3 = ~(A[3] ^ B[3]);
-    assign e2 = ~(A[2] ^ B[2]);
-    assign e1 = ~(A[1] ^ B[1]);
-    assign e0 = ~(A[0] ^ B[0]);
+    assign out[1] = in[2] | in[3] | in[6] | in[7];
 
-    
-    assign A_greater =
-        ( A[3] & ~B[3] ) |
-        ( e3 & A[2] & ~B[2] ) |
-        ( e3 & e2 & A[1] & ~B[1] ) |
-        ( e3 & e2 & e1 & A[0] & ~B[0] );
-
-
-    assign A_equal = e3 & e2 & e1 & e0;
-
-    
-    assign A_less =
-        ( ~A[3] & B[3] ) |
-        ( e3 & ~A[2] & B[2] ) |
-        ( e3 & e2 & ~A[1] & B[1] ) |
-        ( e3 & e2 & e1 & ~A[0] & B[0] );
+    assign out[0] = in[1] | in[3] | in[5] | in[7];
 
 endmodule
