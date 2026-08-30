@@ -1,48 +1,51 @@
-`timescale 1ns/1ps
+module tb_decoder3to8;
 
-module tb_encoder8to3;
+reg en;
+reg [2:0] in;
+wire [7:0] y;
 
-reg [7:0] in;
-wire [2:0] out;
-
-
-encoder8to3 DUT(
+decoder3to8 DUT(
+    .en(en),
     .in(in),
-    .out(out)
+    .y(y)
 );
 
 initial begin
 
     
-    $dumpfile("encoder8to3.vcd");
-    $dumpvars(0, tb_encoder8to3);
+    $dumpfile("decoder3to8.vcd");
+    $dumpvars(0, tb_decoder3to8);
 
     
-    $display("Time\tInput\t\tOutput");
-    $monitor("%0t\t%b\t%b", $time, in, out);
+    $display("Time\tEnable\tInput\tOutput");
+    $monitor("%0t\t%b\t%b\t%b", $time, en, in, y);
 
-    in = 8'b00000001;
+    
+    en = 1'b1;
+
+    
+    in = 3'b000;
     #10;
 
-    in = 8'b00000010;
+    in = 3'b001;
     #10;
 
-    in = 8'b00000100;
+    in = 3'b010;
     #10;
 
-    in = 8'b00001000;
+    in = 3'b011;
     #10;
 
-    in = 8'b00010000;
+    in = 3'b100;
     #10;
 
-    in = 8'b00100000;
+    in = 3'b101;
     #10;
 
-    in = 8'b01000000;
+    in = 3'b110;
     #10;
 
-    in = 8'b10000000;
+    in = 3'b111;
     #10;
 
     $finish;
