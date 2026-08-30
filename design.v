@@ -1,61 +1,14 @@
 
 
-module bcd_to_7segment(
-    input  [3:0] bcd,
-    output a,
-    output b,
-    output c,
-    output d,
-    output e,
-    output f,
-    output g
+module gray_to_binary(
+    input  [3:0] gray,
+    output [3:0] binary
 );
 
     
-    assign a = (~bcd[3] & ~bcd[2] & ~bcd[1] &  bcd[0]) |
-               (~bcd[3] &  bcd[2] & ~bcd[1] & ~bcd[0]) |
-               ( bcd[3] & ~bcd[2] &  bcd[1] &  bcd[0]) |
-               ( bcd[3] &  bcd[2] & ~bcd[1] &  bcd[0]);
-
-    
-    assign b = (~bcd[3] &  bcd[2] & ~bcd[1] &  bcd[0]) |
-               (~bcd[3] &  bcd[2] &  bcd[1] & ~bcd[0]) |
-               ( bcd[3] & ~bcd[2] &  bcd[1] &  bcd[0]) |
-               ( bcd[3] &  bcd[2] & ~bcd[1] & ~bcd[0]) |
-               ( bcd[3] &  bcd[2] &  bcd[1] &  bcd[0]);
-
-    
-    assign c = (~bcd[3] & ~bcd[2] &  bcd[1] & ~bcd[0]) |
-               ( bcd[3] &  bcd[2] & ~bcd[1] & ~bcd[0]) |
-               ( bcd[3] &  bcd[2] &  bcd[1] & ~bcd[0]) |
-               ( bcd[3] &  bcd[2] &  bcd[1] &  bcd[0]);
-
-    
-    assign d = (~bcd[3] & ~bcd[2] & ~bcd[1] &  bcd[0]) |
-               (~bcd[3] &  bcd[2] & ~bcd[1] & ~bcd[0]) |
-               (~bcd[3] &  bcd[2] &  bcd[1] &  bcd[0]) |
-               ( bcd[3] & ~bcd[2] & ~bcd[1] &  bcd[0]) |
-               ( bcd[3] & ~bcd[2] &  bcd[1] & ~bcd[0]);
-
-    
-    assign e = (~bcd[3] & ~bcd[2] & ~bcd[1] &  bcd[0]) |
-               (~bcd[3] & ~bcd[2] &  bcd[1] &  bcd[0]) |
-               (~bcd[3] &  bcd[2] & ~bcd[1] & ~bcd[0]) |
-               (~bcd[3] &  bcd[2] & ~bcd[1] &  bcd[0]) |
-               (~bcd[3] &  bcd[2] &  bcd[1] &  bcd[0]) |
-               ( bcd[3] & ~bcd[2] & ~bcd[1] &  bcd[0]);
-
-    
-    assign f = (~bcd[3] & ~bcd[2] & ~bcd[1] &  bcd[0]) |
-               (~bcd[3] & ~bcd[2] &  bcd[1] & ~bcd[0]) |
-               (~bcd[3] & ~bcd[2] &  bcd[1] &  bcd[0]) |
-               (~bcd[3] &  bcd[2] &  bcd[1] &  bcd[0]) |
-               ( bcd[3] & ~bcd[2] & ~bcd[1] &  bcd[0]);
-
-    
-    assign g = (~bcd[3] & ~bcd[2] & ~bcd[1] & ~bcd[0]) |
-               (~bcd[3] & ~bcd[2] & ~bcd[1] &  bcd[0]) |
-               (~bcd[3] &  bcd[2] &  bcd[1] &  bcd[0]) |
-               ( bcd[3] & ~bcd[2] & ~bcd[1] &  bcd[0]);
+    assign binary[3] = gray[3];
+    assign binary[2] = binary[3] ^ gray[2];
+    assign binary[1] = binary[2] ^ gray[1];
+    assign binary[0] = binary[1] ^ gray[0];
 
 endmodule
