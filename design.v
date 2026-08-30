@@ -1,45 +1,16 @@
-module half_subtractor (
-    input A,
-    input B,
-    output Diff,
-    output Borrow
+module mux8to1 (
+    input  [7:0] D,
+    input  [2:0] S,
+    output Y
 );
 
-assign Diff = A ^ B;
-assign Borrow = (~A) & B;
-
-endmodule
-
-
-module full_subtractor (
-    input A,
-    input B,
-    input Bin,
-    output Diff,
-    output Bout
-);
-
-wire D1;
-wire B1;
-wire B2;
-
-
-half_subtractor HS1 (
-    .A(A),
-    .B(B),
-    .Diff(D1),
-    .Borrow(B1)
-);
-
-
-half_subtractor HS2 (
-    .A(D1),
-    .B(Bin),
-    .Diff(Diff),
-    .Borrow(B2)
-);
-
-
-or OR1 (Bout, B1, B2);
+assign Y = (S == 3'b000) ? D[0] :
+           (S == 3'b001) ? D[1] :
+           (S == 3'b010) ? D[2] :
+           (S == 3'b011) ? D[3] :
+           (S == 3'b100) ? D[4] :
+           (S == 3'b101) ? D[5] :
+           (S == 3'b110) ? D[6] :
+                           D[7];
 
 endmodule

@@ -1,74 +1,65 @@
 `timescale 1ns/1ps
 
-module tb_full_subtractor;
+module tb_mux8to1;
 
-reg A;
-reg B;
-reg Bin;
+reg [7:0] D;
+reg [2:0] S;
+wire Y;
 
-wire Diff;
-wire Bout;
-
-full_subtractor DUT (
-    .A(A),
-    .B(B),
-    .Bin(Bin),
-    .Diff(Diff),
-    .Bout(Bout)
+mux8to1 DUT (
+    .D(D),
+    .S(S),
+    .Y(Y)
 );
 
 initial begin
 
-    
-    $dumpfile("full_subtractor.vcd");
-    $dumpvars(0, tb_full_subtractor);
+    // VCD generation
+    $dumpfile("mux8to1.vcd");
+    $dumpvars(0, tb_mux8to1);
 
-    
-    A = 1'b0; B = 1'b0; Bin = 1'b0;
-    #10;
-    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
-             A, B, Bin, Diff, Bout);
+    // Input data
+    D = 8'b10101010;
 
-    
-    A = 1'b0; B = 1'b0; Bin = 1'b1;
+    // Select 000 -> D[0]
+    S = 3'b000;
     #10;
-    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
-             A, B, Bin, Diff, Bout);
+    $display("S=%b D=%b Y=%b", S, D, Y);
 
-    A = 1'b0; B = 1'b1; Bin = 1'b0;
+    // Select 001 -> D[1]
+    S = 3'b001;
     #10;
-    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
-             A, B, Bin, Diff, Bout);
+    $display("S=%b D=%b Y=%b", S, D, Y);
 
-    
-    A = 1'b0; B = 1'b1; Bin = 1'b1;
+    // Select 010 -> D[2]
+    S = 3'b010;
     #10;
-    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
-             A, B, Bin, Diff, Bout);
+    $display("S=%b D=%b Y=%b", S, D, Y);
 
-    
-    A = 1'b1; B = 1'b0; Bin = 1'b0;
+    // Select 011 -> D[3]
+    S = 3'b011;
     #10;
-    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
-             A, B, Bin, Diff, Bout);
+    $display("S=%b D=%b Y=%b", S, D, Y);
 
-    
-    A = 1'b1; B = 1'b0; Bin = 1'b1;
+    // Select 100 -> D[4]
+    S = 3'b100;
     #10;
-    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
-             A, B, Bin, Diff, Bout);
+    $display("S=%b D=%b Y=%b", S, D, Y);
 
-    
-    A = 1'b1; B = 1'b1; Bin = 1'b0;
+    // Select 101 -> D[5]
+    S = 3'b101;
     #10;
-    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
-             A, B, Bin, Diff, Bout);
+    $display("S=%b D=%b Y=%b", S, D, Y);
 
-    
-    A = 1'b1; B = 1'b1; Bin = 1'b1;
+    // Select 110 -> D[6]
+    S = 3'b110;
     #10;
-    $display("A=%b B=%b Bin=%b | Diff=%b Bout=%b",
-             A, B, Bin, Diff, Bout);
+    $display("S=%b D=%b Y=%b", S, D, Y);
+
+    // Select 111 -> D[7]
+    S = 3'b111;
+    #10;
+    $display("S=%b D=%b Y=%b", S, D, Y);
 
     $finish;
 
