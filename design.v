@@ -1,26 +1,17 @@
 
 
-module decoder2to4(
+module full_subtractor(
     input A,
     input B,
-    input En,
-    output Y0,
-    output Y1,
-    output Y2,
-    output Y3
+    input Bin,
+    output Diff,
+    output Bout
 );
 
-    wire nA;
-    wire nB;
+    
+    assign Diff = A ^ B ^ Bin;
 
     
-    not (nA, A);
-    not (nB, B);
-
-    
-    and (Y0, En, nA, nB);
-    and (Y1, En, nA, B);
-    and (Y2, En, A, nB);
-    and (Y3, En, A, B);
+    assign Bout = (~A & B) | (~A & Bin) | (B & Bin);
 
 endmodule

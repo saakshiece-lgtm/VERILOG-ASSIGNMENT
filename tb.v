@@ -1,56 +1,58 @@
 `timescale 1ns/1ps
 
-module tb_decoder2to4;
+module tb_full_subtractor;
 
     reg A;
     reg B;
-    reg En;
+    reg Bin;
 
-    wire Y0;
-    wire Y1;
-    wire Y2;
-    wire Y3;
+    wire Diff;
+    wire Bout;
 
     
-    decoder2to4 DUT(
+    full_subtractor DUT(
         .A(A),
         .B(B),
-        .En(En),
-        .Y0(Y0),
-        .Y1(Y1),
-        .Y2(Y2),
-        .Y3(Y3)
+        .Bin(Bin),
+        .Diff(Diff),
+        .Bout(Bout)
     );
 
     initial begin
 
         
-        $dumpfile("decoder2to4.vcd");
-        $dumpvars(0, tb_decoder2to4);
+        $dumpfile("full_subtractor.vcd");
+        $dumpvars(0, tb_full_subtractor);
 
         
-        $display("Time\tEn\tA\tB\tY0\tY1\tY2\tY3");
-        $monitor("%0t\t%b\t%b\t%b\t%b\t%b\t%b\t%b",
-                 $time, En, A, B, Y0, Y1, Y2, Y3);
+        $display("Time\tA\tB\tBin\tDiff\tBout");
+        $monitor("%0t\t%b\t%b\t%b\t%b\t%b",
+                 $time, A, B, Bin, Diff, Bout);
 
         
-        En = 1'b0; A = 1'b0; B = 1'b0;
+
+        A = 1'b0; B = 1'b0; Bin = 1'b0;
         #10;
 
-        
-        En = 1'b1; A = 1'b0; B = 1'b0;
+        A = 1'b0; B = 1'b0; Bin = 1'b1;
         #10;
 
-    
-        En = 1'b1; A = 1'b0; B = 1'b1;
+        A = 1'b0; B = 1'b1; Bin = 1'b0;
         #10;
 
-        
-        En = 1'b1; A = 1'b1; B = 1'b0;
+        A = 1'b0; B = 1'b1; Bin = 1'b1;
         #10;
 
-        
-        En = 1'b1; A = 1'b1; B = 1'b1;
+        A = 1'b1; B = 1'b0; Bin = 1'b0;
+        #10;
+
+        A = 1'b1; B = 1'b0; Bin = 1'b1;
+        #10;
+
+        A = 1'b1; B = 1'b1; Bin = 1'b0;
+        #10;
+
+        A = 1'b1; B = 1'b1; Bin = 1'b1;
         #10;
 
         $finish;
