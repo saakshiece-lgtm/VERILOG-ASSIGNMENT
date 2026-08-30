@@ -1,17 +1,14 @@
 
 
-module full_subtractor(
+module half_subtractor(
     input A,
     input B,
-    input Bin,
     output Diff,
-    output Bout
+    output Borrow
 );
 
     
-    assign Diff = A ^ B ^ Bin;
-
-    
-    assign Bout = (~A & B) | (~A & Bin) | (B & Bin);
+    xor (Diff, A, B);
+    and (Borrow, B, ~A);
 
 endmodule

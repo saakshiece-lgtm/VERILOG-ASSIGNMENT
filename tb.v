@@ -1,58 +1,48 @@
 `timescale 1ns/1ps
 
-module tb_full_subtractor;
+module tb_half_subtractor;
 
     reg A;
     reg B;
-    reg Bin;
 
     wire Diff;
-    wire Bout;
+    wire Borrow;
 
     
-    full_subtractor DUT(
+    half_subtractor DUT(
         .A(A),
         .B(B),
-        .Bin(Bin),
         .Diff(Diff),
-        .Bout(Bout)
+        .Borrow(Borrow)
     );
 
     initial begin
 
         
-        $dumpfile("full_subtractor.vcd");
-        $dumpvars(0, tb_full_subtractor);
+        $dumpfile("half_subtractor.vcd");
+        $dumpvars(0, tb_half_subtractor);
 
         
-        $display("Time\tA\tB\tBin\tDiff\tBout");
-        $monitor("%0t\t%b\t%b\t%b\t%b\t%b",
-                 $time, A, B, Bin, Diff, Bout);
+        $display("Time\tA\tB\tDiff\tBorrow");
+        $monitor("%0t\t%b\t%b\t%b\t%b",
+                 $time, A, B, Diff, Borrow);
 
         
 
-        A = 1'b0; B = 1'b0; Bin = 1'b0;
+        A = 1'b0;
+        B = 1'b0;
         #10;
 
-        A = 1'b0; B = 1'b0; Bin = 1'b1;
+        A = 1'b0;
+        B = 1'b1;
         #10;
 
-        A = 1'b0; B = 1'b1; Bin = 1'b0;
+        A = 1'b1;
+        B = 1'b0;
         #10;
 
-        A = 1'b0; B = 1'b1; Bin = 1'b1;
-        #10;
-
-        A = 1'b1; B = 1'b0; Bin = 1'b0;
-        #10;
-
-        A = 1'b1; B = 1'b0; Bin = 1'b1;
-        #10;
-
-        A = 1'b1; B = 1'b1; Bin = 1'b0;
-        #10;
-
-        A = 1'b1; B = 1'b1; Bin = 1'b1;
+        A = 1'b1;
+        B = 1'b1;
         #10;
 
         $finish;
