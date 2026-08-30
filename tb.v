@@ -1,55 +1,38 @@
 `timescale 1ns/1ps
 
-module tb_mux2to1_gates;
+module tb_binary_to_gray2bit;
 
-    reg I0;
-    reg I1;
-    reg S;
-
-    wire Y;
+    reg  [1:0] B;
+    wire [1:0] G;
 
     
-    mux2to1_gates DUT(
-        .I0(I0),
-        .I1(I1),
-        .S(S),
-        .Y(Y)
+    binary_to_gray2bit DUT(
+        .B(B),
+        .G(G)
     );
 
     initial begin
 
         
-        $dumpfile("mux2to1_gates.vcd");
-        $dumpvars(0, tb_mux2to1_gates);
+        $dumpfile("binary_to_gray2bit.vcd");
+        $dumpvars(0, tb_binary_to_gray2bit);
 
         
-        $display("Time\tI0\tI1\tS\tY");
-        $monitor("%0t\t%b\t%b\t%b\t%b",
-                 $time, I0, I1, S, Y);
+        $display("Time\tBinary\tGray");
+        $monitor("%0t\t%b\t%b", $time, B, G);
 
+        
 
-        I0 = 1'b0; I1 = 1'b0; S = 1'b0;
+        B = 2'b00;
         #10;
 
-        I0 = 1'b0; I1 = 1'b1; S = 1'b0;
+        B = 2'b01;
         #10;
 
-        I0 = 1'b1; I1 = 1'b0; S = 1'b0;
+        B = 2'b10;
         #10;
 
-        I0 = 1'b1; I1 = 1'b1; S = 1'b0;
-        #10;
-
-        I0 = 1'b0; I1 = 1'b0; S = 1'b1;
-        #10;
-
-        I0 = 1'b0; I1 = 1'b1; S = 1'b1;
-        #10;
-
-        I0 = 1'b1; I1 = 1'b0; S = 1'b1;
-        #10;
-
-        I0 = 1'b1; I1 = 1'b1; S = 1'b1;
+        B = 2'b11;
         #10;
 
         $finish;
